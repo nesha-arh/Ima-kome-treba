@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Request, Query
+from fastapi import FastAPI, Request, Query, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 import sqlite3
 from typing import Optional
 
@@ -50,3 +50,23 @@ def home(
         "q": q or "",
         "category": category or ""
     })
+
+@app.post("/add-product")
+def add_product(
+    naslov: str = Form(...),
+    kategorija: str = Form(...),
+    opis: str = Form(...),
+    slika_url: Optional[str] = Form(None)
+):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute(
+        "INSERT INTO oglasi (naslov, kategorija, opis, slika_url) VALUES (?, ?, ?, ?)",
+        (naslov, kategorija, opis, slika_url or "/static/logo.jpg")
+    )
+    
+    conn.commit()
+    conn.close()
+    
+    return RedirectResponse(url="/", status_code=303)
