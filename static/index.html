@@ -8,33 +8,25 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f2f4f7; color: #333; }
 
-        /* Header & Pretraga (KP Stil) */
+        /* Header & Pretraga */
         header { background-color: #004481; padding: 15px 20px; color: white; }
         .header-container { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; }
         .logo { font-size: 22px; font-weight: bold; color: #fff; text-decoration: none; }
         
         .search-bar { display: flex; flex: 1; max-width: 650px; gap: 5px; width: 100%; }
-        .search-bar select, .search-bar input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .search-bar select { background-color: #f8f9fa; width: 35%; }
-        .search-bar input { flex: 1; min-width: 0; }
+        .search-bar input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         .search-bar button { padding: 10px 18px; background-color: #ff9900; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
 
-        /* Layout */
-        .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 240px 1fr; gap: 20px; }
-        
-        @media (max-width: 768px) {
-            .main-container { grid-template-columns: 1fr; }
-            .search-bar { flex-direction: column; }
-            .search-bar select { width: 100%; }
-        }
+        .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
-        /* Bočne Kategorije (KP Stil) */
-        .categories-sidebar { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); height: fit-content; }
-        .categories-sidebar h3 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid #004481; padding-bottom: 5px; }
-        .categories-list { list-style: none; }
-        .categories-list li { margin-bottom: 6px; }
-        .categories-list a { color: #004481; text-decoration: none; font-size: 14px; display: block; padding: 6px 8px; border-radius: 4px; }
-        .categories-list a:hover { background-color: #eef4fc; font-weight: bold; }
+        /* KupujemProdajem Stil Kategorija (Grid sa karticama) */
+        .kp-categories-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #004481; border-bottom: 2px solid #004481; padding-bottom: 5px; }
+        .kp-categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 30px; }
+        
+        .kp-cat-card { background: #fff; border: 1px solid #dcdfe6; border-radius: 6px; padding: 12px; text-decoration: none; color: #333; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease; }
+        .kp-cat-card:hover { border-color: #004481; box-shadow: 0 2px 8px rgba(0,68,129,0.15); transform: translateY(-2px); }
+        .kp-cat-icon { font-size: 22px; background: #eef4fc; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #004481; flex-shrink: 0; }
+        .kp-cat-text { font-size: 13px; font-weight: 600; line-height: 1.2; }
 
         /* Mreža Proizvoda (Baumit Stil) */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
@@ -68,13 +60,6 @@
     <div class="header-container">
         <a href="/" class="logo">Ima Kome Treba</a>
         <form class="search-bar" action="/" method="GET">
-            <select name="category">
-                <option value="">Sve kategorije</option>
-                <option value="gradjevina" {% if category == 'gradjevina' %}selected{% endif %}>Građevinski materijal</option>
-                <option value="alati" {% if category == 'alati' %}selected{% endif %}>Alati i oprema</option>
-                <option value="namestaj" {% if category == 'namestaj' %}selected{% endif %}>Nameštaj i dom</option>
-                <option value="odeca" {% if category == 'odeca' %}selected{% endif %}>Odeća i obuća</option>
-            </select>
             <input type="text" name="q" value="{{ q }}" placeholder="Šta tražite? (npr. lepak, fasada, alat...)">
             <button type="submit">Traži</button>
         </form>
@@ -82,17 +67,37 @@
 </header>
 
 <div class="main-container">
-    <aside class="categories-sidebar">
-        <h3>Kategorije</h3>
-        <ul class="categories-list">
-            <li><a href="/">Sve kategorije</a></li>
-            <li><a href="/?category=gradjevina">Građevinski materijal</a></li>
-            <li><a href="/?category=alati">Alati i oprema</a></li>
-            <li><a href="/?category=namestaj">Nameštaj i dom</a></li>
-            <li><a href="/?category=odeca">Odeća i obuća</a></li>
-        </ul>
-    </aside>
+    <!-- Kategorije u stilu KupujemProdajem -->
+    <div class="kp-categories-title">Kategorije oglasa</div>
+    <div class="kp-categories-grid">
+        <a href="/" class="kp-cat-card">
+            <div class="kp-cat-icon">📋</div>
+            <div class="kp-cat-text">Sve kategorije</div>
+        </a>
+        <a href="/?category=gradjevina" class="kp-cat-card">
+            <div class="kp-cat-icon">🏗️</div>
+            <div class="kp-cat-text">Građevinski materijal</div>
+        </a>
+        <a href="/?category=alati" class="kp-cat-card">
+            <div class="kp-cat-icon">🛠️</div>
+            <div class="kp-cat-text">Alati i oprema</div>
+        </a>
+        <a href="/?category=namestaj" class="kp-cat-card">
+            <div class="kp-cat-icon">🛋️</div>
+            <div class="kp-cat-text">Nameštaj i dom</div>
+        </a>
+        <a href="/?category=odeca" class="kp-cat-card">
+            <div class="kp-cat-icon">👕</div>
+            <div class="kp-cat-text">Odeća i obuća</div>
+        </a>
+        <a href="/?category=elektronika" class="kp-cat-card">
+            <div class="kp-cat-icon">💻</div>
+            <div class="kp-cat-text">Elektronika</div>
+        </a>
+    </div>
 
+    <!-- Oglasi / Proizvodi -->
+    <div class="kp-categories-title">Najnoviji oglasi</div>
     <main class="products-grid">
         {% if products %}
             {% for p in products %}
@@ -129,6 +134,7 @@
                     <option value="alati">Alati i oprema</option>
                     <option value="namestaj">Nameštaj i dom</option>
                     <option value="odeca">Odeća i obuća</option>
+                    <option value="elektronika">Elektronika</option>
                 </select>
             </div>
             <div class="form-group">
