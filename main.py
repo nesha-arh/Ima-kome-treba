@@ -24,6 +24,17 @@ def home(
     conn = get_db_connection()
     cursor = conn.cursor()
     
+    # Provera i automatsko kreiranje tabele ako ne postoji
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS oglasi (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            naslov TEXT NOT NULL,
+            kategorija TEXT NOT NULL,
+            opis TEXT NOT NULL,
+            slika_url TEXT
+        )
+    """)
+    
     query = "SELECT * FROM oglasi WHERE 1=1"
     params = []
     
@@ -37,11 +48,7 @@ def home(
         
     query += " ORDER BY id DESC"
     
-    try:
-        products = cursor.execute(query, params).fetchall()
-    except sqlite3.OperationalError:
-        products = []
-        
+    products = cursor.execute(query, params).fetchall()
     conn.close()
     
     return templates.TemplateResponse("index.html", {
