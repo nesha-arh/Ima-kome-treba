@@ -6,53 +6,152 @@
     <title>Ima Kome Treba</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 15px; }
-        .container { background: #fff; padding: 25px; border-radius: 10px; max-width: 400px; margin: 20px auto; }
-        h2 { text-align: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, button { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
-        button { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f2f4f7; color: #333; }
+
+        /* Header & Pretraga (KP Stil) */
+        header { background-color: #004481; padding: 15px 20px; color: white; }
+        .header-container { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; }
+        .logo { font-size: 22px; font-weight: bold; color: #fff; text-decoration: none; }
         
-        /* Sekcija za sponzore */
-        .sponsors-section { text-align: center; margin-top: 40px; padding: 20px; background: #fff; border-radius: 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .search-bar { display: flex; flex: 1; max-width: 600px; gap: 5px; width: 100%; }
+        .search-bar select, .search-bar input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .search-bar select { background-color: #f8f9fa; width: 35%; }
+        .search-bar input { flex: 1; min-width: 0; }
+        .search-bar button { padding: 10px 18px; background-color: #ff9900; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .search-bar button:hover { background-color: #e68a00; }
+
+        /* Glavni kontejner */
+        .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 240px 1fr; gap: 20px; }
+        
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .search-bar select { width: 100%; }
+            .search-bar { flex-direction: column; }
+        }
+
+        /* Bočne kategorije (KupujemProdajem stil) */
+        .categories-sidebar { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .categories-sidebar h3 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid #004481; padding-bottom: 5px; }
+        .categories-list { list-style: none; }
+        .categories-list li { margin-bottom: 8px; }
+        .categories-list a { color: #004481; text-decoration: none; font-size: 14px; display: block; padding: 6px 8px; border-radius: 4px; }
+        .categories-list a:hover { background-color: #eef4fc; font-weight: bold; }
+
+        /* Mreža Proizvoda (Baumit stil) */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .product-card { background: #fff; border-radius: 8px; border: 1px solid #e1e4e8; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; height: 160px; object-fit: cover; background-color: #eee; }
+        .product-info { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #222; }
+        .product-category { font-size: 12px; color: #777; margin-bottom: 8px; }
+        .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .btn-view { padding: 6px 12px; background-color: #004481; color: white; text-decoration: none; border-radius: 4px; font-size: 13px; text-align: center; }
+
+        /* Forma i Sponzori (Dno) */
+        .bottom-section { max-width: 1100px; margin: 30px auto; padding: 0 15px; }
+        .register-box { background: #fff; padding: 20px; border-radius: 8px; max-width: 450px; margin: 0 auto 30px auto; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .register-box h3 { margin-bottom: 15px; text-align: center; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-submit { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        .sponsors-section { background: #fff; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .sponsors-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; margin-top: 15px; }
-        .sponsor-item img { max-width: 120px; height: auto; opacity: 0.85; transition: 0.3s; border-radius: 5px; }
-        .sponsor-item img:hover { opacity: 1; transform: scale(1.05); }
+        .sponsor-item img { max-width: 120px; height: auto; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Registracija</h2>
-    <form action="/register" method="POST">
-        <div class="form-group">
-            <label for="username">Korisničko ime</label>
-            <input type="text" id="username" name="username" required>
+<header>
+    <div class="header-container">
+        <a href="/" class="logo">Ima Kome Treba</a>
+        <form class="search-bar" action="/search" method="GET">
+            <select name="category">
+                <option value="">Sve kategorije</option>
+                <option value="gradjevina">Građevinski materijal</option>
+                <option value="alati">Alati i mašine</option>
+                <option value="namestaj">Nameštaj i dom</option>
+                <option value="odeca">Odeća i obuća</option>
+            </select>
+            <input type="text" name="q" placeholder="Šta tražite? (npr. lepak, fasada, alat...)">
+            <button type="submit">Traži</button>
+        </form>
+    </div>
+</header>
+
+<div class="main-container">
+    <!-- Bočne kategorije -->
+    <aside class="categories-sidebar">
+        <h3>Kategorije</h3>
+        <ul class="categories-list">
+            <li><a href="#">Sve kategorije</a></li>
+            <li><a href="#">Građevinski materijal</a></li>
+            <li><a href="#">Alati i oprema</a></li>
+            <li><a href="#">Kuća i bašta</a></li>
+            <li><a href="#">Elektronika</a></li>
+            <li><a href="#">Razno / Pokloni</a></li>
+        </ul>
+    </aside>
+
+    <!-- Mreža predmeta/proizvoda -->
+    <main class="products-grid">
+        <div class="product-card">
+            <img src="/static/logo.jpg" alt="Proizvod" class="product-img">
+            <div class="product-info">
+                <div>
+                    <div class="product-title">Građevinski lepci i fasade</div>
+                    <div class="product-category">Građevinski materijal</div>
+                </div>
+                <div class="product-footer">
+                    <a href="#" class="btn-view">Pogledaj</a>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Lozinka</label>
-            <input type="password" id="password" name="password" required>
+
+        <div class="product-card">
+            <img src="/static/logo.jpg" alt="Proizvod" class="product-img">
+            <div class="product-info">
+                <div>
+                    <div class="product-title">Ručni i električni alati</div>
+                    <div class="product-category">Alati i oprema</div>
+                </div>
+                <div class="product-footer">
+                    <a href="#" class="btn-view">Pogledaj</a>
+                </div>
+            </div>
         </div>
-        <button type="submit">Registruj se</button>
-    </form>
+    </main>
 </div>
 
-<!-- Sekcija sa 2 sponzora -->
-<div class="sponsors-section">
-    <h3>Sponzori i Prijatelji</h3>
-    <div class="sponsors-grid">
-        <!-- Prvi sponzor -->
-        <div class="sponsor-item">
-            <a href="https://sajt-prvog-sponzora.com" target="_blank">
-                <img src="/static/logo.jpg" alt="Sponzor 1">
-            </a>
-        </div>
-        <!-- Drugi sponzor -->
-        <div class="sponsor-item">
-            <a href="https://sajt-drugog-sponzora.com" target="_blank">
-                <img src="/static/logo.jpg" alt="Sponzor 2">
-            </a>
+<div class="bottom-section">
+    <!-- Forma na dnu -->
+    <div class="register-box">
+        <h3>Registracija korisnika</h3>
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label for="username">Korisničko ime</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Lozinka</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-submit">Registruj se</button>
+        </form>
+    </div>
+
+    <!-- Sponzori na dnu -->
+    <div class="sponsors-section">
+        <h4>Sponzori i Prijatelji projekta</h4>
+        <div class="sponsors-grid">
+            <div class="sponsor-item">
+                <a href="#"><img src="/static/logo.jpg" alt="Sponzor 1"></a>
+            </div>
+            <div class="sponsor-item">
+                <a href="#"><img src="/static/logo.jpg" alt="Sponzor 2"></a>
+            </div>
         </div>
     </div>
 </div>
